@@ -24,7 +24,7 @@ struct func
 
     void operator()()
     {
-        for (unsigned j = 0; j < 1000000; ++j)
+        for (unsigned j = 0; j < 10; ++j)
         {
             do_something(i);
         }

@@ -19,10 +19,7 @@ int main()
     t.detach(); // 分离线程
 
     std::cout << "Main thread is free to do other things." << std::endl;
-    std::this_thread::sleep_for(std::chrono::seconds(2)); // 主线程等待1秒
-    // // 主线程完成工作，即将退出，分离的线程仍可能在运行q
+    std::this_thread::sleep_for(std::chrono::seconds(2)); // 主线程等待 2 秒
 
-
-    // 主线程结束后，分离的线程可能仍在运行
-    return 0; // 程序结束时，运行中的分离线程仍会尝试完成它的任务
+    return 0;
 }
