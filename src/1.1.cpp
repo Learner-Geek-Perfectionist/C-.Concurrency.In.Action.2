@@ -14,5 +14,8 @@ void f()
 int main()
 {
     thread t(f);
+    for (int i = 0; i < 1000000; i++)
+    {
+    }
     t.join();
 }

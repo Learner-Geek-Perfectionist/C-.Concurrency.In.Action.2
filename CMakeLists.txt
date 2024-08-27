@@ -5,4 +5,5 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(2.1 src/2.1.cpp)
 add_executable(1.1 src/1.1.cpp)
-
+add_executable(2.1.1_1 CPlusPlus_Multithreading_Examples/2.1.1_1.cpp)
+add_executable(2.1.1_2 CPlusPlus_Multithreading_Examples/2.1.1_2.cpp)
