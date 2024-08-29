@@ -1,8 +1,8 @@
 //
 // Created by xin on 24-8-27.
 // 前线程的函数已返回，新线程却仍能访问其局部变量
-// 以下做法极不可取：意图在函数中创建线程(比如，在oops()函数中创建线程，my_thread)，
-// 并让线程访问(oops)函数的局部变量(比如，my_thread线程访问局部变量some_local_state)
+// 以下做法极不可取：意图在函数中创建线程(比如，在oops()函数中创建子线程，my_thread)，
+// 并让子线程以指针的形式访问(oops)函数的局部变量(比如，my_thread线程访问局部变量some_local_state)
 
 #include <iostream>
 #include <thread>

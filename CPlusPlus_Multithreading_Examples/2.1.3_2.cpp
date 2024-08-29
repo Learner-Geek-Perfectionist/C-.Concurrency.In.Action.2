@@ -1,4 +1,7 @@
-// Case 2，std::terminate()函数提前终止进程
+//
+// Created by xin on 24-8-29.
+//
+// Case 3，try-catch处理
 
 #include <iostream>
 #include <thread>
@@ -13,24 +16,22 @@ void threadFunction()
 
 int main()
 {
+    std::thread t(threadFunction);
+    std::cout << "Main thread is performing an operation...\n";
     try
     {
-        std::thread t(threadFunction); // 线程对象 t 在 try 块中启动。
-        std::cout << "Main thread is performing an operation...\n";
-
         // 模拟一个可能抛出异常的操作
         throw std::runtime_error("An error occurred!");
-
-        // 如果没有异常，这里会调用 join()
-        t.join(); // join() 被跳过
     }
     catch (const std::exception& e)
     {
         std::cout << "Caught exception: " << e.what() << std::endl;
+        t.join();  // 正确处理线程，确保线程完成
+        return 1;  // 由于异常，提前退出
 
         // 因为异常，这里没有调用 join()
     }
-
+    if (t.joinable()) t.join();
     std::cout << "Main thread ended without waiting for the thread.\n";
     return 0;
 }
