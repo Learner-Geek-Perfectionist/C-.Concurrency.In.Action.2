@@ -1,29 +1,29 @@
 //
-// Created by xin on 24-8-28.
-// 向线程函数传递参数
+// Created by xin on 24-8-29.
+// 使用智能指针实现伪闭包（pseudo-closure）
+// 用 std::shared_ptr 来安全地在 lambda 表达式中捕获这些资源，确保在使用这些资源的过程中它们不会被意外释放。
 
 #include <iostream>
+#include <memory>
 #include <thread>
-#include <string>
-using namespace std;
 
-void f(int i, string const& s)
+void startBackgroundTask(std::shared_ptr<int> data)
 {
-    // std::this_thread::sleep_for(std::chrono::seconds(3)); // 模拟耗时操作
-    cout << i << endl << s << endl;
-}
-
-void oops(int some_param)
-{
-    // char buffer[1024];
-    // sprintf(buffer, "%i", some_param);
-    auto sp = make_shared<string>(to_string(some_param));
-    thread t(f, 1, sp); // 传递参数的时候使用了函数的局部变量。
-    t.detach();
+    // 创建一个线程，捕获data
+    std::thread t([data]()
+    {
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        std::cout << "Data: " << *data << std::endl;
+    });
+    t.detach(); // 分离线程，让它在后台运行
 }
 
 int main()
 {
-    oops(123456);
-    // std::this_thread::sleep_for(std::chrono::seconds(2)); // 模拟耗时操作
+    std::shared_ptr<int> data = std::make_shared<int>(42);
+
+    startBackgroundTask(data);
+
+    std::this_thread::sleep_for(std::chrono::seconds(2)); // 等待足够长的时间以确保线程执行完成
+    return 0;
 }
