@@ -28,7 +28,7 @@ void process_widget_data(widget_data)
     cout << "process_data\n";
 }
 
-using namespace std;
+
 
 void update_data_for_widget(widget_id w, widget_data& data) // 修改为 const widget_data& data 能正确输出，
 {
