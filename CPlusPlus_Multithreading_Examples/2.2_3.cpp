@@ -1,29 +1,31 @@
 //
 // Created by xin on 24-8-31.
-// 在线程上启动类中的成员函数，并且传递参数
-// 通过类对象调用成员函数，编译器会隐式添加 this 参数，即 &obj
-// 比如，有一个 Example 类，有一个成员函数 func(int x), obj 是该类的对象，调用 obj.func(2);
-// 相当于 Example::func(&obj,2);  在 obj.func(2); 形式中， this 指针被隐藏了。
+// 使用 move 对 unique_ptr 进行移动
+
 
 #include <memory>
 #include <iostream>
 #include <thread>
 using namespace std;
 
-
-class X
+class big_object
 {
 public:
-    void do_lengthy_work()
-    {
-        cout << "do some work\n";
-    }
+    void prepare(int x) { cout << "preparing data：" << x << endl; }
 };
 
-X my_x;
+void process_big_object(unique_ptr<big_object>)
+{
+    cout << "processing data\n";
+}
+
 
 int main()
 {
-    std::thread t(&X::do_lengthy_work, &my_x);
+    unique_ptr<big_object> p(new big_object); // 创建独占指针，管理 big_object 类资源
+    p->prepare(42); // big_object 对象准备数据
+    thread t(process_big_object, std::move(p)); // 将 big_object 对象的管理权转移到子线程中。
+    // 1.thread 的构造函数将 std::move(p) 右值拷贝到子线程内部
+    // 2.然后 process_big_object 函数再调用参数。
     t.join();
 }
