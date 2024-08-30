@@ -3,6 +3,7 @@ project(C++.Concurrency.In.Action.2)
 
 set(CMAKE_CXX_STANDARD 17)
 
+add_executable(2.6 src/2.6.cpp)
 add_executable(2.5 src/2.5.cpp)
 add_executable(2.3 src/2.3.cpp)
 add_executable(2.2 src/2.2.cpp)
