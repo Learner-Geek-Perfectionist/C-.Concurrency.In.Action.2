@@ -1,6 +1,6 @@
 //
 // Created by xin on 24-8-31.
-//
+// coped_thread 类及其用例
 
 #include <memory>
 #include <iostream>
@@ -61,18 +61,18 @@ class scoped_thread
 public:
     explicit scoped_thread(thread _t): t(move(_t))
     {
-        if (!t.joinable()) throw logic_error("No thread");
+        if (!t.joinable()) throw logic_error("No thread"); // 若无线程，则抛出异常。
     }
 
-    ~scoped_thread() { t.join(); }
+    ~scoped_thread() { t.join(); } // 无需再判断线程是否可汇合。
     scoped_thread(scoped_thread const&) = delete;
     scoped_thread& operator=(scoped_thread const&) = delete;
 };
 
 void f()
 {
-    int some_local_state;
-    scoped_thread t{std::thread(func(some_local_state))};
+    int some_local_state; // 未定义的值......
+    scoped_thread t{std::thread(func(some_local_state))}; // 先构造临时的函数对象，再构造临时的线程对象
     do_something_in_current_thread();
 }
 
